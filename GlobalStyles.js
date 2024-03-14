@@ -40,6 +40,7 @@ export const Color = {
   fuschia100: "#25d366",
   colorForestgreen: "#12ae4d",
   iris4: "#e4e5f8",
+  colorOrange: "#faad14",
 };
 /* Paddings */
 export const Padding = {

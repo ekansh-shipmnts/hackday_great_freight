@@ -4,56 +4,37 @@ import FrappeFetch from "react-native-frappe-fetch";
 import React, { useEffect, useState } from 'react';
 const get_party_details = "shipmnts.finance_mobile.get_party_details"
 const get_party_wise_invoices = "shipmnts.finance_mobile.get_party_wise_invoices"
-import axios  from 'axios';
+import axios from 'axios';
 import CutomerDetailScreen from './src/components/CutomerDetailScreen';
 import { NavigationContainer } from '@react-navigation/native';
-
-export function erpNextAxiosCall(props,next) {
-  const { action, url, params } = props;
-  console.log(url)
-  axios.get(url,{
-    'headers': {
-      'Content-Type': 'application/json',
-      'X-Frappe-Site-Name': 'jetfreight.acc.shipmnts.com',
-      'Authorization': 'Basic NzkwMzJmMDE3YzkzYzRhOmVlNzAzZDVkMGQ0MjkwYQ=='
-    },
-    'params': {...params}
-  })
-    .then((response) => {
-      next(response)
-    })
-    .catch((error) => {
-      console.log("E -> ",error)
-    });
-}
-
+import { erpNextAxiosCall } from './src/Apis/Axios';
 
 export default function App() {
-  const [data,setData] = useState([])
-  const [partyDetails,setPartyDetails] = useState({})
+  const [data, setData] = useState([])
+  const [partyDetails, setPartyDetails] = useState({})
   useEffect(() => {
-    const fetchData =  () => {
+    const fetchData = () => {
       try {
         erpNextAxiosCall({
           action: 'get',
           url: `https://jetfreight.acc.shipmnts.com/api/method/${get_party_wise_invoices}`,
-          params: { 
+          params: {
             party: "20CUBE LOGISTICS PRIVATE LIMITED",
             party_type: "customer",
-            status: JSON.stringify(['Overdue','Unpaid'])
-         }
-        },(response) => {
+            status: JSON.stringify(['Overdue', 'Unpaid'])
+          }
+        }, (response) => {
           setData(response.data.message)
         })
-        
+
         erpNextAxiosCall({
           action: 'get',
           url: `https://jetfreight.acc.shipmnts.com/api/method/${get_party_details}`,
-          params: { 
+          params: {
             party: "20CUBE LOGISTICS PRIVATE LIMITED",
             party_type: "customer",
-         }
-        },(response) => {
+          }
+        }, (response) => {
           setPartyDetails(response.data.message)
         })
       } catch (error) {
@@ -65,10 +46,10 @@ export default function App() {
   }, []);
   return (
     <NavigationContainer>
-    <View style={styles.container}>
-      <CutomerDetailScreen data={data} partyDetails={partyDetails} />
-      <StatusBar style="auto" />
-    </View>
+      <View style={styles.container}>
+        <CutomerDetailScreen data={data} partyDetails={partyDetails} />
+        <StatusBar style="auto" />
+      </View>
     </NavigationContainer>
   );
 }
