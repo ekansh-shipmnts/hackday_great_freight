@@ -17,48 +17,11 @@ const get_party_wise_invoices = "shipmnts.finance_mobile.get_party_wise_invoices
 
 const CutomerDetailScreen = ({ data, partyDetails }) => {
   console.log(">>> ", partyDetails)
-  const navigation = useNavigation();
-  // const [data, setData] = useState([])
-  // const [partyDetails, setPartyDetails] = useState({})
   const [selectedTab, setSelectedTab] = useState('invoices');
 
   const handleTabPress = (tab) => {
     setSelectedTab(tab);
-    console.log('Selected Tab', tab)
   };
-
-  // useEffect(() => {
-  //   const fetchData = () => {
-  //     try {
-  //       erpNextAxiosCall({
-  //         action: 'get',
-  //         url: `https://jetfreight.acc.shipmnts.com/api/method/${get_party_wise_invoices}`,
-  //         params: {
-  //           party: "20CUBE LOGISTICS PRIVATE LIMITED",
-  //           party_type: "customer",
-  //           status: JSON.stringify(['Overdue', 'Unpaid'])
-  //         }
-  //       }, (response) => {
-  //         setData(response.data.message)
-  //       })
-
-  //       erpNextAxiosCall({
-  //         action: 'get',
-  //         url: `https://jetfreight.acc.shipmnts.com/api/method/${get_party_details}`,
-  //         params: {
-  //           party: "20CUBE LOGISTICS PRIVATE LIMITED",
-  //           party_type: "customer",
-  //         }
-  //       }, (response) => {
-  //         setPartyDetails(response.data.message)
-  //       })
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   return (
     <View style={styles.cutomerdetailscreen}>

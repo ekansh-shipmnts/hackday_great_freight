@@ -7,7 +7,25 @@ const get_party_wise_invoices = "shipmnts.finance_mobile.get_party_wise_invoices
 import axios from 'axios';
 import CutomerDetailScreen from './src/components/CutomerDetailScreen';
 import { NavigationContainer } from '@react-navigation/native';
-import { erpNextAxiosCall } from './src/Apis/Axios';
+
+export function erpNextAxiosCall(props, next) {
+  const { action, url, params } = props;
+  console.log(url)
+  axios.get(url, {
+    'headers': {
+      'Content-Type': 'application/json',
+      'X-Frappe-Site-Name': 'jetfreight.acc.shipmnts.com',
+      'Authorization': 'Basic NzkwMzJmMDE3YzkzYzRhOmVlNzAzZDVkMGQ0MjkwYQ=='
+    },
+    'params': { ...params }
+  })
+    .then((response) => {
+      next(response)
+    })
+    .catch((error) => {
+      console.log("E -> ", error)
+    });
+}
 
 export default function App() {
   const [data, setData] = useState([])
