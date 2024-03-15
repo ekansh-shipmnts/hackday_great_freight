@@ -9,6 +9,7 @@ import axios from "axios";
 import CutomerDetailScreen from "./src/components/CutomerDetailScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import Dashboard from "./src/components/Dashboard";
+import AllCustomers from "./src/components/AllCustomers";
 
 export function erpNextAxiosCall(props, next) {
   const { action, url, params } = props;
@@ -76,6 +77,7 @@ export default function App() {
       <View style={styles.container}>
         <CutomerDetailScreen data={data} partyDetails={partyDetails} />
         {/* <Dashboard /> */}
+        {/* <AllCustomers /> */}
         <StatusBar style="auto" />
       </View>
     </NavigationContainer>

@@ -1,9 +1,6 @@
 import * as React from "react";
 import { Text, StyleSheet, View, TouchableOpacity, Pressable, Dimensions, ScrollView, Linking } from "react-native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../../GlobalStyles";
-// import { TouchableOpacity } from "react-native-gesture-handler";
-
-
 
 const ShipmentsTab = () => {
 
@@ -37,20 +34,23 @@ const ShipmentsTab = () => {
         }
     }
 
-    const handleLinkPress = (link) => {
-        Linkinglink.openURL(link);
+    const handleLinkPress = () => {
+        const link = 'https://www.npmjs.com/package/react-native-pie-chart';
+        Linking.openURL(link);
     };
 
     return (
         <>
             <View style={styles.shipmentCardParent}>
                 {
-                    shipmentsData.map((shipment) => (
-                        <View style={styles.shipmentCardBorder}>
+                    shipmentsData.map((shipment, index) => (
+                        <View style={[index != 0 && styles.shipmentCard1, styles.shipmentCardBorder]}>
                             <View>
-                                <Text style={[styles.jflamdj232401655, styles.pendingTypo]}>
-                                    {shipment.jobNumber}
-                                </Text>
+                                <TouchableOpacity onPress={() => handleLinkPress()}>
+                                    <Text style={[styles.jflamdj232401655, styles.pendingTypo]}>
+                                        {shipment.jobNumber}
+                                    </Text>
+                                </TouchableOpacity>
                                 <View style={styles.frameGroup}>
                                     <View style={styles.wrapperBorder}>
                                         <Text style={[statusStyle(shipment.status), styles.pendingTypo]}>
@@ -422,7 +422,9 @@ const styles = StyleSheet.create({
         marginTop: 12,
     },
     shipmentCardParent: {
-        marginTop: 16,
+        top: 60,
+        left: 20,
+        position: "absolute",
     },
     groupParent: {
         top: 326,
