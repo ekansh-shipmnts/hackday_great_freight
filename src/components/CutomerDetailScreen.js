@@ -1,4 +1,3 @@
-
 // import * as React from "react";
 import React, { useEffect, useState } from "react";
 import {
@@ -24,11 +23,88 @@ import InvoicesTab from "./InvoicesTab";
 import ActivityTab from "./ActivityTab";
 import ShipmentsTab from "./ShipmentsTab";
 import ContactInfoTab from "./ContactInfoTab";
+import { erpNextAxiosCall1, erpNextAxiosCall2 } from "../../App";
 
-const CutomerDetailScreen = ({ data, partyDetails }) => {
-  console.log(">>> ", partyDetails);
-  const navigation = useNavigation();
+const get_party_details = "shipmnts.finance_mobile.get_party_details";
+const get_party_wise_invoices =
+  "shipmnts.finance_mobile.get_party_wise_invoices";
+const URL1 = 'https://jetfreight.acc.shipmnts.com'
+const URL2 = 'https://penta-demo.acc.shipmnts.com'
+
+const CutomerDetailScreen = () => {
+
   const [selectedTab, setSelectedTab] = useState('invoices');
+  const [data, setData] = useState([]);
+  const [partyDetails, setPartyDetails] = useState({});
+  const [shipmentsDetail, setShipmentsDetail] = useState([]);
+  const [contectDetail, setContectDetail] = useState([]);
+  const party = "20CUBE LOGISTICS PRIVATE LIMITED";
+  const party2 = "VEEWIN LOGISTICS";
+
+  useEffect(() => {
+    const fetchData = () => {
+      try {
+        erpNextAxiosCall1(
+          {
+            action: "get",
+            url: `${URL1}/api/method/${get_party_wise_invoices}`,
+            params: {
+              party: party,
+              party_type: "customer",
+              status: JSON.stringify(["Overdue", "Unpaid"]),
+            },
+          },
+          (response) => {
+            setData(response.data.message);
+            console.log('------------------------- Data', response.data.message);
+          }
+        );
+        erpNextAxiosCall1(
+          {
+            action: "get",
+            url: `${URL1}/api/method/${get_party_details}`,
+            params: {
+              party: party,
+              party_type: "customer",
+            },
+          },
+          (response) => {
+            setPartyDetails(response.data.message);
+            console.log('=================================== setPartyDetails', response.data.message);
+          }
+        );
+        erpNextAxiosCall2(
+          {
+            action: "get",
+            url: `${URL2}/api/method/shipmnts.finance_mobile.get_customer_shipments`,
+            params: {
+              customer: party2,
+            },
+          },
+          (response) => {
+            setShipmentsDetail(response.data.message);
+            console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< setShipmentsDetail', response.data.message);
+          }
+        );
+        erpNextAxiosCall2(
+          {
+            action: "get",
+            url: `${URL2}/api/method/shipmnts.finance_mobile.get_party_contacts_info`,
+            params: {
+              party: 'GEODIS INDIA PRIVATE LIMITED',
+            },
+          },
+          (response) => {
+            setContectDetail(response.data.message);
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> setContectDetail', response.data.message);
+          }
+        );
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleTabPress = (tab) => {
     setSelectedTab(tab);
@@ -73,7 +149,7 @@ const CutomerDetailScreen = ({ data, partyDetails }) => {
             </View>
             <View style={[styles.rectangleGroup, styles.rectanglePosition]}>
               <View style={[styles.groupInner, styles.groupPosition]} />
-              <Text style={[styles.unpaid, styles.billedTypo]}>Unpaid</Text>
+              <Text style={[styles.unpaid, styles.billedTypo]}>Unpaid1</Text>
               <Text style={[styles.text1, styles.textText]}>
                 ₹
                 {(
@@ -135,36 +211,56 @@ const CutomerDetailScreen = ({ data, partyDetails }) => {
             <View style={[styles.invoicesParent, styles.parentFlexBox]}>
               <Pressable
                 style={styles.tab}
-                onPress={() => handleTabPress('invoices')}
+                onPress={() => handleTabPress("invoices")}
               >
-                <Text style={[styles.tabText, selectedTab === 'invoices' && styles.selectedTab]}>
+                <Text
+                  style={[
+                    styles.tabText,
+                    selectedTab === "invoices" && styles.selectedTab,
+                  ]}
+                >
                   Invoices
                 </Text>
               </Pressable>
 
               <Pressable
                 style={styles.tab}
-                onPress={() => handleTabPress('activity')}
+                onPress={() => handleTabPress("activity")}
               >
-                <Text style={[styles.tabText, selectedTab === 'activity' && styles.selectedTab]}>
+                <Text
+                  style={[
+                    styles.tabText,
+                    selectedTab === "activity" && styles.selectedTab,
+                  ]}
+                >
                   Activity
                 </Text>
               </Pressable>
 
               <Pressable
                 style={styles.tab}
-                onPress={() => handleTabPress('shipments')}
+                onPress={() => handleTabPress("shipments")}
               >
-                <Text style={[styles.tabText, selectedTab === 'shipments' && styles.selectedTab]}>
+                <Text
+                  style={[
+                    styles.tabText,
+                    selectedTab === "shipments" && styles.selectedTab,
+                  ]}
+                >
                   Shipments
                 </Text>
               </Pressable>
 
               <Pressable
                 style={styles.tab}
-                onPress={() => handleTabPress('contact')}
+                onPress={() => handleTabPress("contact")}
               >
-                <Text style={[styles.tabText, selectedTab === 'contact' && styles.selectedTab]}>
+                <Text
+                  style={[
+                    styles.tabText,
+                    selectedTab === "contact" && styles.selectedTab,
+                  ]}
+                >
                   Contact Info
                 </Text>
               </Pressable>
@@ -186,10 +282,10 @@ const CutomerDetailScreen = ({ data, partyDetails }) => {
             />
           </View>
 
-          {selectedTab === 'invoices' && <InvoicesTab data={data} />}
-          {selectedTab === 'activity' && <ActivityTab />}
-          {selectedTab === 'shipments' && <ShipmentsTab />}
-          {selectedTab === 'contact' && <ContactInfoTab />}
+          {selectedTab === "invoices" && <InvoicesTab data={data} />}
+          {selectedTab === "activity" && <ActivityTab />}
+          {selectedTab === "shipments" && <ShipmentsTab shipmentsDetail={shipmentsDetail} />}
+          {selectedTab === "contact" && <ContactInfoTab contectDetail={contectDetail} />}
 
           <View style={styles.depositParent}></View>
         </View>
@@ -204,19 +300,19 @@ const styles = StyleSheet.create({
   // },
   tabText: {
     fontSize: 16,
-    color: '#333',
+    color: "#333",
   },
   selectedTab: {
-    textDecorationLine: 'underline',
-    textDecorationStyle: 'double',
-    textDecorationColor: 'black',
+    textDecorationLine: "underline",
+    textDecorationStyle: "double",
+    textDecorationColor: "black",
   },
   component4Layout: {
     width: "100%",
     right: "0%",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   textTypo: {
     fontFamily: FontFamily.button2,
@@ -656,9 +752,9 @@ const styles = StyleSheet.create({
     left: 20,
     height: 24,
     position: "absolute",
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   vectorIcon: {
     left: 0,
@@ -678,7 +774,7 @@ const styles = StyleSheet.create({
   frameParent: {
     height: 41,
     width: 360,
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 20,
   },
   bg: {
@@ -803,7 +899,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   cutomerdetailscreen: {
     height: 984,

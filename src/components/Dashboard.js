@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Text, StyleSheet, View, ScrollView } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { Image } from "expo-image";
 import {
   FontFamily,
@@ -8,405 +14,277 @@ import {
   Color,
   Border,
 } from "../../GlobalStyles";
-
-const Dashboard = () => {
+import { useState } from "react";
+import Icon from "react-native-vector-icons/FontAwesome";
+const Dashboard = ({ data }) => {
+  const [activeTab, setActiveTab] = useState("Home");
+  console.log("data ", data);
   return (
-    <ScrollView style={styles.dashboard}>
-      <View style={styles.frameParent}>
-        <View style={styles.helloKaranWrapper}>
-          <Text style={styles.helloKaranTypo}>Hello, Karan!</Text>
-        </View>
-        <View style={[styles.businessAnalysis, styles.businessAnalysisLayout]}>
-          <View style={[styles.labelHeaderParent, styles.parentFlexBox]}>
-            <Text style={[styles.labelHeader, styles.overDue19Typo]}>
-              Business Analysis
-            </Text>
-            <Image
-              style={[styles.arrowLeftIcon, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../../assets/arrowleft.png")}
-            />
+    <>
+      <ScrollView style={styles.dashboard}>
+        <View style={styles.frameParent}>
+          <View style={styles.helloKaranWrapper}>
+            <Text style={styles.helloKaranTypo}>Hello, Karan!</Text>
           </View>
-          <View style={styles.labelHeaderGroup}>
-            <Text style={styles.labelHeader1}>
-              Your net profit for this year is
-            </Text>
-            <Text style={[styles.labelHeader2, styles.item01Typo]}>
-              ₹2,01,51,183
-            </Text>
-          </View>
-          <View style={[styles.button33, styles.button33FlexBox]}>
-            <View style={styles.content}>
-              <Text
-                style={[styles.viewPl, styles.viewPlTypo]}
-              >{`View P&L`}</Text>
-            </View>
-          </View>
-        </View>
-        <View style={[styles.businessAnalysis, styles.businessAnalysisLayout]}>
-          <View style={[styles.labelHeaderParent, styles.parentFlexBox]}>
-            <Text style={[styles.labelHeader, styles.overDue19Typo]}>
-              Customer wise O/s Amount
-            </Text>
-            <Image
-              style={[styles.arrowLeftIcon, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../../assets/arrowleft.png")}
-            />
-          </View>
-          <View style={styles.depositInner}>
-            <View style={styles.ellipseParent}>
-              <Text style={[styles.text, styles.textPosition]}>
-                ₹7,92,46,000
+          <View
+            style={[styles.businessAnalysis, styles.businessAnalysisLayout]}
+          >
+            <View style={[styles.labelHeaderParent, styles.parentFlexBox]}>
+              <Text style={[styles.labelHeader, styles.overDue19Typo]}>
+                Business Analysis
               </Text>
-              <Text style={[styles.totalOs, styles.paidTypo]}>Total O/S</Text>
+              <Image
+                style={[styles.arrowLeftIcon, styles.iconLayout]}
+                contentFit="cover"
+                source={require("../../assets/arrowleft.png")}
+              />
             </View>
-          </View>
-          <View style={styles.frameGroup}>
-            <View>
-              <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
-                <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
-                  Goldee Pvt Ltd
-                </Text>
-                <Text style={[styles.text1, styles.textTypo]}>
-                  ₹2,01,51,183
-                </Text>
-              </View>
-              <View style={styles.rectangleParent}>
-                <View
-                  style={[styles.rectangleView, styles.groupChildPosition1]}
-                />
-                <View style={styles.groupChild2} />
-              </View>
-            </View>
-            <View style={styles.frameView}>
-              <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
-                <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
-                  RLabs Pvt Ltd
-                </Text>
-                <Text style={[styles.text1, styles.textTypo]}>
-                  ₹1,18,11,030
-                </Text>
-              </View>
-              <View style={styles.rectangleParent}>
-                <View
-                  style={[styles.rectangleView, styles.groupChildPosition1]}
-                />
-                <View
-                  style={[styles.groupChild4, styles.groupChildPosition1]}
-                />
-              </View>
-            </View>
-            <View style={styles.frameView}>
-              <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
-                <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
-                  Exco Tradings
-                </Text>
-                <Text style={[styles.text1, styles.textTypo]}>₹93,14,357</Text>
-              </View>
-              <View style={styles.rectangleParent}>
-                <View
-                  style={[styles.rectangleView, styles.groupChildPosition1]}
-                />
-                <View
-                  style={[styles.groupChild6, styles.groupChildPosition1]}
-                />
-              </View>
-            </View>
-            <View style={styles.frameView}>
-              <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
-                <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
-                  Falcon Pvt Ltd
-                </Text>
-                <Text style={[styles.text1, styles.textTypo]}>₹78,67,036</Text>
-              </View>
-              <View style={styles.rectangleParent}>
-                <View
-                  style={[styles.rectangleView, styles.groupChildPosition1]}
-                />
-                <View
-                  style={[styles.groupChild8, styles.groupChildPosition1]}
-                />
-              </View>
-            </View>
-            <View style={styles.frameView}>
-              <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
-                <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
-                  Others
-                </Text>
-                <Text style={[styles.text5, styles.textTypo]}>₹3,306,039</Text>
-              </View>
-              <View style={styles.rectangleParent}>
-                <View
-                  style={[styles.rectangleView, styles.groupChildPosition1]}
-                />
-                <View
-                  style={[styles.groupChild10, styles.groupChildPosition1]}
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={[styles.businessAnalysis, styles.businessAnalysisLayout]}>
-          <View style={[styles.labelHeaderParent, styles.parentFlexBox]}>
-            <Text style={[styles.labelHeader, styles.overDue19Typo]}>
-              Total Invoices
-            </Text>
-            <Image
-              style={[styles.arrowLeftIcon, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../../assets/arrowleft.png")}
-            />
-          </View>
-          <View style={styles.labelHeaderGroup}>
-            <View style={styles.groupWrapper}>
-              <View style={[styles.groupParent, styles.statusBarPosition]}>
-                <Image
-                  style={[styles.groupChild, styles.capIconLayout]}
-                  contentFit="cover"
-                  source={require("../../assets/group-607.png")}
-                />
-                <Text style={[styles.text6, styles.textPosition]}>139</Text>
-              </View>
-            </View>
-            <View style={styles.groupContainer}>
-              <View style={styles.rectangleParentLayout}>
-                <View
-                  style={[styles.groupChild11, styles.groupChildPosition]}
-                />
-                <Text style={[styles.paid, styles.paidTypo]}>Paid</Text>
-                <Text style={[styles.text7, styles.textTypo1]}>29</Text>
-              </View>
-              <View
-                style={[styles.rectangleParent3, styles.rectangleParentLayout]}
-              >
-                <View
-                  style={[styles.groupChild12, styles.groupChildPosition]}
-                />
-                <Text style={[styles.paid, styles.paidTypo]}>Un Paid</Text>
-                <Text style={[styles.text7, styles.textTypo1]}>80</Text>
-              </View>
-              <View
-                style={[styles.rectangleParent3, styles.rectangleParentLayout]}
-              >
-                <View style={styles.groupChild13} />
-                <Text style={[styles.paid, styles.paidTypo]}>Over due</Text>
-                <Text style={[styles.text7, styles.textTypo1]}>30</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-      <View style={styles.component5Parent}>
-        <View style={styles.component5}>
-          <View style={[styles.component5Child, styles.statusBarPosition]} />
-          <View style={[styles.component5Item, styles.component5Position]} />
-          <View style={[styles.component5Inner, styles.component5Position]} />
-          <View style={styles.arrowLeftParent}>
-            <Image
-              style={[styles.arrowLeftIcon3, styles.frameChildLayout]}
-              contentFit="cover"
-              source={require("../../assets/arrowleft.png")}
-            />
-            <Text style={[styles.allCustomers, styles.helloKaranTypo]}>
-              All Customers
-            </Text>
-          </View>
-        </View>
-        <View style={[styles.checkboxGroupParent, styles.parentFlexBox]}>
-          <View style={styles.checkboxGroup}>
-            <View style={styles.content}>
-              <View style={styles.checkboxInput}>
-                <View style={[styles.bg, styles.iconLayout]} />
-                <View style={[styles.border1, styles.borderBorder]} />
-              </View>
-              <Text style={[styles.item01, styles.item01Typo]}>
-                Over Due(20)
+            <View style={styles.labelHeaderGroup}>
+              <Text style={styles.labelHeader1}>
+                Your net profit for this year is
+              </Text>
+              <Text style={[styles.labelHeader2, styles.item01Typo]}>
+                ₹2,01,51,183
               </Text>
             </View>
-            <View style={styles.checkbox1}>
-              <View style={styles.checkboxInput1}>
-                <View style={[styles.bg1, styles.bg1Border]} />
+            <View style={[styles.button33, styles.button33FlexBox]}>
+              <View style={styles.content}>
+                <Text
+                  style={[styles.viewPl, styles.viewPlTypo]}
+                >{`View P&L`}</Text>
               </View>
-              <Text style={[styles.item01, styles.item01Typo]}>
-                On Time(10)
-              </Text>
             </View>
           </View>
-          <Image
-            style={[styles.frameChild, styles.frameChildLayout]}
-            contentFit="cover"
-            source={require("../../assets/frame-323.png")}
-          />
-        </View>
-        <View style={styles.frameView}>
-          <View style={styles.customerCardBorder}>
-            <View style={styles.frameParent5}>
-              <View style={[styles.frameParent6, styles.parentFlexBox]}>
-                <View>
-                  <Text style={[styles.goldeePvtLtd1, styles.overDue19Typo]}>
+          <View
+            style={[styles.businessAnalysis, styles.businessAnalysisLayout]}
+          >
+            <View style={[styles.labelHeaderParent, styles.parentFlexBox]}>
+              <Text style={[styles.labelHeader, styles.overDue19Typo]}>
+                Customer wise O/s Amount
+              </Text>
+              <Image
+                style={[styles.arrowLeftIcon, styles.iconLayout]}
+                contentFit="cover"
+                source={require("../../assets/arrowleft.png")}
+              />
+            </View>
+            <View style={styles.depositInner}>
+              <View style={styles.ellipseParent}>
+                <Text style={[styles.text, styles.textPosition]}>
+                  ₹7,92,46,000
+                </Text>
+                <Text style={[styles.totalOs, styles.paidTypo]}>Total O/S</Text>
+              </View>
+            </View>
+            <View style={styles.frameGroup}>
+              <View>
+                <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
+                  <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
                     Goldee Pvt Ltd
                   </Text>
-                  <View style={styles.frameWrapper}>
-                    <View style={[styles.overDue19Wrapper, styles.bg1Border]}>
-                      <Text
-                        style={[styles.overDue19, styles.viewPlTypo]}
-                      >{`Over Due (19) `}</Text>
-                    </View>
-                  </View>
-                </View>
-                <Image
-                  style={styles.iconLayout}
-                  contentFit="cover"
-                  source={require("../../assets/frame-1171276717.png")}
-                />
-              </View>
-              <View style={styles.frameParent7}>
-                <View>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 2,01,51,183
-                  </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Total O/S Amount
+                  <Text style={[styles.text1, styles.textTypo]}>
+                    ₹2,01,51,183
                   </Text>
                 </View>
-                <View style={styles.group}>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 7,50,230
-                  </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Overdue Amount
-                  </Text>
+                <View style={styles.rectangleParent}>
+                  <View
+                    style={[styles.rectangleView, styles.groupChildPosition1]}
+                  />
+                  <View style={styles.groupChild2} />
                 </View>
               </View>
-            </View>
-          </View>
-          <View style={[styles.customerCard1, styles.customerCardBorder]}>
-            <View style={styles.frameParent5}>
-              <View style={[styles.frameParent6, styles.parentFlexBox]}>
-                <View>
-                  <Text style={[styles.goldeePvtLtd1, styles.overDue19Typo]}>
+              <View style={styles.frameView}>
+                <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
+                  <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
                     RLabs Pvt Ltd
                   </Text>
-                  <View style={styles.frameWrapper}>
-                    <View style={[styles.overDue19Wrapper, styles.bg1Border]}>
-                      <Text
-                        style={[styles.overDue19, styles.viewPlTypo]}
-                      >{`Over Due (12) `}</Text>
-                    </View>
-                  </View>
-                </View>
-                <Image
-                  style={styles.iconLayout}
-                  contentFit="cover"
-                  source={require("../../assets/frame-1171276717.png")}
-                />
-              </View>
-              <View style={styles.frameParent7}>
-                <View>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 1,18,11,030
-                  </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Total O/S Amount
+                  <Text style={[styles.text1, styles.textTypo]}>
+                    ₹1,18,11,030
                   </Text>
                 </View>
-                <View style={styles.group}>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 2,47,020
-                  </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Overdue Amount
-                  </Text>
+                <View style={styles.rectangleParent}>
+                  <View
+                    style={[styles.rectangleView, styles.groupChildPosition1]}
+                  />
+                  <View
+                    style={[styles.groupChild4, styles.groupChildPosition1]}
+                  />
                 </View>
               </View>
-            </View>
-          </View>
-          <View style={[styles.customerCard1, styles.customerCardBorder]}>
-            <View style={styles.frameParent5}>
-              <View style={[styles.frameParent6, styles.parentFlexBox]}>
-                <View>
-                  <Text style={[styles.goldeePvtLtd1, styles.overDue19Typo]}>
+              <View style={styles.frameView}>
+                <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
+                  <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
                     Exco Tradings
                   </Text>
-                  <View style={styles.frameWrapper}>
-                    <View style={[styles.overDue19Wrapper, styles.bg1Border]}>
-                      <Text
-                        style={[styles.overDue19, styles.viewPlTypo]}
-                      >{`Over Due (9) `}</Text>
-                    </View>
-                  </View>
+                  <Text style={[styles.text1, styles.textTypo]}>
+                    ₹93,14,357
+                  </Text>
                 </View>
-                <Image
-                  style={styles.iconLayout}
-                  contentFit="cover"
-                  source={require("../../assets/frame-1171276717.png")}
-                />
+                <View style={styles.rectangleParent}>
+                  <View
+                    style={[styles.rectangleView, styles.groupChildPosition1]}
+                  />
+                  <View
+                    style={[styles.groupChild6, styles.groupChildPosition1]}
+                  />
+                </View>
               </View>
-              <View style={styles.frameParent7}>
-                <View>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 93,14,357
+              <View style={styles.frameView}>
+                <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
+                  <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
+                    Falcon Pvt Ltd
                   </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Total O/S Amount
+                  <Text style={[styles.text1, styles.textTypo]}>
+                    ₹78,67,036
                   </Text>
                 </View>
-                <View style={styles.group}>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 2,30,290
+                <View style={styles.rectangleParent}>
+                  <View
+                    style={[styles.rectangleView, styles.groupChildPosition1]}
+                  />
+                  <View
+                    style={[styles.groupChild8, styles.groupChildPosition1]}
+                  />
+                </View>
+              </View>
+              <View style={styles.frameView}>
+                <View style={[styles.goldeePvtLtdParent, styles.parentFlexBox]}>
+                  <Text style={[styles.goldeePvtLtd, styles.paidTypo]}>
+                    Others
                   </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Overdue Amount
+                  <Text style={[styles.text5, styles.textTypo]}>
+                    ₹3,306,039
                   </Text>
+                </View>
+                <View style={styles.rectangleParent}>
+                  <View
+                    style={[styles.rectangleView, styles.groupChildPosition1]}
+                  />
+                  <View
+                    style={[styles.groupChild10, styles.groupChildPosition1]}
+                  />
                 </View>
               </View>
             </View>
           </View>
-          <View style={[styles.customerCard1, styles.customerCardBorder]}>
-            <View style={styles.frameParent5}>
-              <View style={[styles.frameParent6, styles.parentFlexBox]}>
-                <View>
-                  <Text style={[styles.goldeePvtLtd1, styles.overDue19Typo]}>
-                    Falcon Pvt Ltd
-                  </Text>
-                  <View style={styles.frameWrapper}>
-                    <View style={[styles.overDue19Wrapper, styles.bg1Border]}>
-                      <Text
-                        style={[styles.overDue19, styles.viewPlTypo]}
-                      >{`Over Due (8) `}</Text>
-                    </View>
-                  </View>
+          <View
+            style={[styles.businessAnalysis, styles.businessAnalysisLayout]}
+          >
+            <View style={[styles.labelHeaderParent, styles.parentFlexBox]}>
+              <Text style={[styles.labelHeader, styles.overDue19Typo]}>
+                Total Invoices
+              </Text>
+              <Image
+                style={[styles.arrowLeftIcon, styles.iconLayout]}
+                contentFit="cover"
+                source={require("../../assets/arrowleft.png")}
+              />
+            </View>
+            <View style={styles.labelHeaderGroup}>
+              <View style={styles.groupWrapper}>
+                <View style={[styles.groupParent, styles.statusBarPosition]}>
+                  <Image
+                    style={[styles.groupChild, styles.capIconLayout]}
+                    contentFit="cover"
+                    source={require("../../assets/group-607.png")}
+                  />
+                  <Text style={[styles.text6, styles.textPosition]}>139</Text>
                 </View>
-                <Image
-                  style={styles.iconLayout}
-                  contentFit="cover"
-                  source={require("../../assets/frame-1171276717.png")}
-                />
               </View>
-              <View style={styles.frameParent7}>
-                <View>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 78,67,036
-                  </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Total O/S Amount
-                  </Text>
+              <View style={styles.groupContainer}>
+                <View style={styles.rectangleParentLayout}>
+                  <View
+                    style={[styles.groupChild11, styles.groupChildPosition]}
+                  />
+                  <Text style={[styles.paid, styles.paidTypo]}>Paid</Text>
+                  <Text style={[styles.text7, styles.textTypo1]}>29</Text>
                 </View>
-                <View style={styles.group}>
-                  <Text style={[styles.text10, styles.textTypo]}>
-                    ₹ 1,98,928
-                  </Text>
-                  <Text style={[styles.totalOsAmount, styles.overDue19Typo]}>
-                    Overdue Amount
-                  </Text>
+                <View
+                  style={[
+                    styles.rectangleParent3,
+                    styles.rectangleParentLayout,
+                  ]}
+                >
+                  <View
+                    style={[styles.groupChild12, styles.groupChildPosition]}
+                  />
+                  <Text style={[styles.paid, styles.paidTypo]}>Un Paid</Text>
+                  <Text style={[styles.text7, styles.textTypo1]}>80</Text>
+                </View>
+                <View
+                  style={[
+                    styles.rectangleParent3,
+                    styles.rectangleParentLayout,
+                  ]}
+                >
+                  <View style={styles.groupChild13} />
+                  <Text style={[styles.paid, styles.paidTypo]}>Over due</Text>
+                  <Text style={[styles.text7, styles.textTypo1]}>30</Text>
                 </View>
               </View>
             </View>
           </View>
         </View>
+      </ScrollView>
+      <View style={styles.tabBar}>
+        <TouchableOpacity
+          style={[
+            styles.tabItem,
+            activeTab === "Receivable" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("Receivable")}
+        >
+          <Icon
+            name="plus"
+            size={30}
+            color={
+              activeTab == "Receivable" ? Color.colorRoyalblue_100 : "#123"
+            }
+          />
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === "Receivable" && styles.activeTab,
+            ]}
+          >
+            Receivable
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tabItem, activeTab === "Home" && styles.activeTab]}
+          onPress={() => setActiveTab("Home")}
+        >
+          <Icon
+            name="home"
+            size={30}
+            color={activeTab == "Home" ? Color.colorRoyalblue_100 : "#123"}
+          />
+          <Text
+            style={[styles.tabText, activeTab === "Home" && styles.activeTab]}
+          >
+            Home
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tabItem, activeTab === "Payable" && styles.activeTab]}
+          onPress={() => setActiveTab("Payable")}
+        >
+          <Icon
+            name="minus"
+            size={30}
+            color={activeTab == "Payable" ? Color.colorRoyalblue_100 : "#123"}
+          />
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === "Payable" && styles.activeTab,
+            ]}
+          >
+            Payable
+          </Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </>
   );
 };
 
@@ -1025,6 +903,35 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: "100%",
     backgroundColor: Color.white,
+    marginBottom: 60,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  tabBar: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+    height: 60,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: 5,
+    paddingTop: 10,
+  },
+  tabItem: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tabText: {
+    fontSize: 16,
+  },
+  activeTab: {
+    color: Color.colorRoyalblue_100,
   },
 });
 

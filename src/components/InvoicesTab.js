@@ -1,79 +1,160 @@
 import * as React from "react";
-import { Text, StyleSheet, View, Pressable, Dimensions, ScrollView } from "react-native";
-import Checkbox from 'expo-checkbox';
+import {
+    Text,
+    StyleSheet,
+    View,
+    Pressable,
+    Dimensions,
+    ScrollView,
+} from "react-native";
+import Checkbox from "expo-checkbox";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Color, FontSize, Border, Padding } from "../../GlobalStyles";
-import PieChart from 'react-native-pie-chart'
+import {
+    FontFamily,
+    Color,
+    FontSize,
+    Border,
+    Padding,
+} from "../../GlobalStyles";
+import PieChart from "react-native-pie-chart";
+import { CheckBox } from "react-native-elements";
 
 const InvoicesTab = ({ data }) => {
+    console.log('================== Data', data);
+
+    const [overDueData, setOverDueData] = React.useState([]);
+    const [paidData, setPaidData] = React.useState([]);
+    const [selectedData, setSelectedData] = React.useState([]);
+
+    React.useEffect(() => {
+        const overDue = [];
+        const paid = [];
+        data.map((entry) => {
+            if (entry.status == 'Unpaid') {
+                paid.push({
+                    name: entry.name,
+                    outstanding_amount: entry.outstanding_amount,
+                    status: entry.status,
+                    due_date: entry.due_date
+                });
+            } else if (entry.status == 'Overdue') {
+                overDue.push({
+                    name: entry.name,
+                    outstanding_amount: entry.outstanding_amount,
+                    status: entry.status,
+                    due_date: entry.due_date
+                });
+            }
+            return;
+        })
+        const sortedOverDueData = overDue.sort((a, b) => b.outstanding_amount - a.outstanding_amount);
+        setOverDueData(sortedOverDueData);
+        setPaidData(paid);
+        setSelectedData(overDue);
+        console.log('-----> overDueData', overDueData);
+        console.log('-----> paidData', paidData);
+    }, [data])
+
+    const [isOuerDueChecked, setIsOuerDueChecked] = React.useState(true)
+    const [isOnTimeChecked, setIsOnTimeChecked] = React.useState(false)
+    const handleOuerDueChecked = () => {
+        if (!isOuerDueChecked && isOnTimeChecked) setSelectedData([...overDueData, ...paidData]);
+        else if (isOuerDueChecked && isOnTimeChecked) setSelectedData(paidData);
+        else if (!isOuerDueChecked && !isOnTimeChecked) setSelectedData(overDueData);
+        else if (isOuerDueChecked && !isOnTimeChecked) setSelectedData([]);
+        setIsOuerDueChecked(!isOuerDueChecked)
+    };
+    const handleOnTimeChecked = () => {
+        if (isOuerDueChecked && !isOnTimeChecked) setSelectedData([...overDueData, ...paidData]);
+        else if (!isOuerDueChecked && !isOnTimeChecked) setSelectedData(paidData);
+        else if (isOuerDueChecked && isOnTimeChecked) setSelectedData(overDueData);
+        else if (!isOuerDueChecked && isOnTimeChecked) setSelectedData([]);
+        setIsOnTimeChecked(!isOnTimeChecked)
+    };
 
     return (
         <>
-            <ScrollView>
-                {(data || []).map((row, idx) => {
-                    return (
-                        <View style={styles.depositBorder}>
-                            <View style={styles.frameGroup}>
-                                <View style={[styles.frameContainer, styles.frameLayout]}>
-                                    <View>
-                                        <Text
-                                            style={[styles.shcep23120010, styles.dueDateTypo]}
+            {/* <ScrollView> */}
+            <View style={styles.checkboxGroupParent}>
+                <View style={styles.checkboxGroup}>
+                    <View style={{ color: 'red' }}>
+                        <CheckBox
+                            title={`Over Due(${overDueData.length})`}
+                            checked={isOuerDueChecked}
+                            onPress={handleOuerDueChecked}
+                        />
+                    </View>
+                    <View>
+                        <CheckBox
+                            title={`Unpaid(${paidData.length})`}
+                            checked={isOnTimeChecked}
+                            onPress={handleOnTimeChecked}
+                        />
+                    </View>
+                </View>
+            </View>
+            {(selectedData || []).map((row, index) => {
+                return (
+                    <View style={[index != 0 && styles.customerCard1, styles.depositBorder]}>
+                        <View style={styles.frameGroup}>
+                            <View style={[styles.frameContainer, styles.frameLayout]}>
+                                <View>
+                                    <Text style={[styles.shcep23120010, styles.dueDateTypo]}>
+                                        {row.name}
+                                    </Text>
+                                    <View style={styles.frameParent1}>
+                                        <View style={styles.wrapperBorder}>
+                                            <Text style={[styles.overDue, row.status == 'Unpaid' ? { color: 'green' } : { color: 'red' }, styles.overDueTypo]}>
+                                                {row.status}
+                                            </Text>
+                                        </View>
+                                        <View
+                                            style={[styles.bomMumbaiWrapper, styles.wrapperBorder]}
                                         >
-                                            #{row.name}
-                                        </Text>
-                                        <View style={styles.frameParent1}>
-                                            <View style={styles.wrapperBorder}>
-                                                <Text style={[styles.overDue, styles.overDueTypo]}>
-                                                    {row.status}
-                                                </Text>
-                                            </View>
-                                            <View
-                                                style={[
-                                                    styles.bomMumbaiWrapper,
-                                                    styles.wrapperBorder,
-                                                ]}
-                                            >
-                                                <Text style={[styles.bomMumbai, styles.feb2023Clr]}>
-                                                    CC-CC
-                                                </Text>
-                                            </View>
+                                            <Text style={[styles.bomMumbai, styles.feb2023Clr]}>
+                                                BOM-Mumbai
+                                            </Text>
                                         </View>
                                     </View>
-                                    <Image
-                                        style={styles.bgLayout}
-                                        contentFit="cover"
-                                        source={require("../../assets/frame-1171276717.png")}
-                                    />
                                 </View>
-                                <View style={[styles.frameParent2, styles.frameLayout]}>
-                                    <View>
-                                        <Text style={[styles.feb2023, styles.feb2023Clr]}>
-                                            {row.due_date}
-                                        </Text>
-                                        <Text style={[styles.dueDate, styles.dueDateTypo]}>
-                                            Due Date
-                                        </Text>
-                                    </View>
-                                    <View style={styles.parent}>
-                                        <Text style={[styles.feb2023, styles.feb2023Clr]}>
-                                            ₹ {row.outstanding_amount}
-                                        </Text>
-                                        <Text style={[styles.dueDate, styles.dueDateTypo]}>
-                                            Amount
-                                        </Text>
-                                    </View>
+                                <Image
+                                    style={styles.bgLayout}
+                                    contentFit="cover"
+                                    source={require("../../assets/frame-1171276717.png")}
+                                />
+                            </View>
+                            <View style={[styles.frameParent2, styles.frameLayout]}>
+                                <View>
+                                    <Text style={[styles.feb2023, styles.feb2023Clr]}>
+                                        {row.due_date}
+                                    </Text>
+                                    <Text style={[styles.dueDate, styles.dueDateTypo]}>
+                                        Due Date
+                                    </Text>
+                                </View>
+                                <View style={styles.parent}>
+                                    <Text style={[styles.feb2023, styles.feb2023Clr]}>
+                                        ₹ {row.outstanding_amount}
+                                    </Text>
+                                    <Text style={[styles.dueDate, styles.dueDateTypo]}>
+                                        Amount
+                                    </Text>
                                 </View>
                             </View>
                         </View>
-                    );
-                })}
-            </ScrollView>
+                    </View>
+                );
+            })}
+            {/* </ScrollView> */}
         </>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
+    customerCard1: {
+        marginTop: 12,
+    },
     component4Layout: {
         width: "100%",
         right: "0%",
@@ -211,6 +292,8 @@ const styles = StyleSheet.create({
     },
     depositBorder: {
         padding: Padding.p_xs,
+        marginLeft: 20,
+        marginTop: 10,
         borderColor: Color.colorGainsboro_100,
         borderRadius: Border.br_9xs,
         width: 320,
@@ -594,8 +677,11 @@ const styles = StyleSheet.create({
         height: 24,
     },
     checkboxGroupParent: {
-        marginTop: 16,
+        marginTop: 10,
         justifyContent: "space-between",
+        width: '320',
+        flexDirection: "row",
+        alignItems: "center",
     },
     shcep23120010: {
         color: Color.colorRoyalblue_100,

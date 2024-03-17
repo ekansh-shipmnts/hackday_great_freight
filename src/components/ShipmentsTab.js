@@ -1,81 +1,103 @@
 import * as React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, Pressable, Dimensions, ScrollView, Linking } from "react-native";
-import { Color, FontFamily, FontSize, Padding, Border } from "../../GlobalStyles";
-// import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+    Text,
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Pressable,
+    Dimensions,
+    ScrollView,
+    Linking,
+} from "react-native";
+import {
+    Color,
+    FontFamily,
+    FontSize,
+    Padding,
+    Border,
+} from "../../GlobalStyles";
 
-
-
-const ShipmentsTab = () => {
-
-    const shipmentsData = [
-        {
-            jobNumber: 'JFL/AMD/J23-24/01655',
-            status: 'Pending',
-            type: 'Ocean Export'
-        },
-        {
-            jobNumber: 'JFL/AMD/J53-74/090',
-            status: 'Closed',
-            type: 'Ocean Import'
-        }, {
-            jobNumber: 'JFL/AMD/J23-24/01655',
-            status: 'Pending',
-            type: 'Ocean Export'
-        },
-        {
-            jobNumber: 'JFL/AMD/J53-74/090',
-            status: 'Closed',
-            type: 'Ocean Import'
-        },];
+const ShipmentsTab = ({ shipmentsDetail }) => {
+    // const shipmentsData = [
+    //     {
+    //         jobNumber: "JFL/AMD/J23-24/01655",
+    //         status: "Pending",
+    //         type: "Ocean Export",
+    //     },
+    //     {
+    //         jobNumber: "JFL/AMD/J53-74/090",
+    //         status: "Closed",
+    //         type: "Ocean Import",
+    //     },
+    //     {
+    //         jobNumber: "JFL/AMD/J23-24/01655",
+    //         status: "Pending",
+    //         type: "Ocean Export",
+    //     },
+    //     {
+    //         jobNumber: "JFL/AMD/J53-74/090",
+    //         status: "Closed",
+    //         type: "Ocean Import",
+    //     },
+    // ];
 
     const statusStyle = (status) => {
         switch (status) {
-            case 'Pending':
+            case "Pending":
                 return styles.pending;
-            case 'Paid':
+            case "Paid":
                 return styles.pending;
         }
-    }
+        return styles.pending;
+    };
 
-    const handleLinkPress = (link) => {
-        Linkinglink.openURL(link);
+    const handleLinkPress = () => {
+        const link = "https://www.npmjs.com/package/react-native-pie-chart";
+        Linking.openURL(link);
     };
 
     return (
         <>
             <View style={styles.shipmentCardParent}>
-                {
-                    shipmentsData.map((shipment) => (
-                        <View style={styles.shipmentCardBorder}>
-                            <View>
+                {shipmentsDetail.map((shipment, index) => (
+                    <View
+                        style={[
+                            index != 0 && styles.shipmentCard1,
+                            styles.shipmentCardBorder,
+                        ]}
+                    >
+                        <View>
+                            <TouchableOpacity onPress={() => handleLinkPress()}>
                                 <Text style={[styles.jflamdj232401655, styles.pendingTypo]}>
-                                    {shipment.jobNumber}
+                                    {shipment.name}
                                 </Text>
-                                <View style={styles.frameGroup}>
-                                    <View style={styles.wrapperBorder}>
-                                        <Text style={[statusStyle(shipment.status), styles.pendingTypo]}>
-                                            {shipment.status}
-                                        </Text>
-                                    </View>
-                                    <View style={[styles.oceanExportWrapper, styles.wrapperBorder]}>
-                                        <Text style={[styles.oceanExport, styles.text2Typo]}>
-                                            {shipment.type}
-                                        </Text>
-                                    </View>
+                            </TouchableOpacity>
+                            <View style={styles.frameGroup}>
+                                <View style={styles.wrapperBorder}>
+                                    <Text
+                                        style={[statusStyle(shipment.status), styles.pendingTypo]}
+                                    >
+                                        {shipment.status}
+                                    </Text>
+                                </View>
+                                <View style={[styles.oceanExportWrapper, styles.wrapperBorder]}>
+                                    <Text style={[styles.oceanExport, styles.text2Typo]}>
+                                        {shipment.freight_type + ' ' + shipment.trade_type}
+                                    </Text>
                                 </View>
                             </View>
                         </View>
-                    ))
-                }
+                    </View>
+                ))}
             </View>
         </>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     link: {
-        color: 'blue', // Link color
-        textDecorationLine: 'underline', // Underline the link
+        color: "blue", // Link color
+        textDecorationLine: "underline", // Underline the link
     },
     statusBarPosition: {
         left: "0%",
@@ -422,7 +444,9 @@ const styles = StyleSheet.create({
         marginTop: 12,
     },
     shipmentCardParent: {
-        marginTop: 16,
+        top: 60,
+        left: 20,
+        position: "absolute",
     },
     groupParent: {
         top: 326,
